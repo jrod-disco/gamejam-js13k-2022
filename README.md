@@ -3,7 +3,7 @@ Game submission for JS13k gamejam held in 2022 (Theme: Death).
 
 # Libraries Used
 
-* Kontra (https://github.com/straker/kontra)[https://github.com/straker/kontra]
+* Kontra [https://github.com/straker/kontra](https://github.com/straker/kontra) [API Reference](https://straker.github.io/kontra/)
 * TinyMusic [https://github.com/kevincennis/TinyMusic](https://github.com/straker/kontra)
 
 # Software Used

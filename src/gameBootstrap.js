@@ -1,7 +1,8 @@
-import { init, load, SpriteSheet, Sprite } from 'kontra';
+import { init, load, SpriteSheet, Sprite, initKeys } from 'kontra';
 
 export const bootstrap = (config) => {
   init();
+  initKeys();
 
   console.log('init');
 
@@ -48,7 +49,6 @@ export const bootstrap = (config) => {
         x: 100,
         y: 288,
         anchor: { x: 0.5, y: 1 },
-        dx: 2,
 
         // required for an animation sprite
         animations: spriteSheet.animations,

@@ -1,6 +1,5 @@
 // Learn More here -> https://straker.github.io/kontra/getting-started
 
-import { init, load } from 'kontra';
 import { bootstrap } from './gameBootstrap';
 import { createGameLoop } from './gameLoop';
 
@@ -42,6 +41,7 @@ ctx.msImageSmoothingEnabled = false;
 ctx.oImageSmoothingEnabled = false;
 ctx.canvas.width = 320;
 ctx.canvas.height = 320;
+//ctx.scale(2, 2);
 
 // const resize = () => {
 //   const w = document.body.offsetWidth;

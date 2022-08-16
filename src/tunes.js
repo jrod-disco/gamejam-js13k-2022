@@ -5,56 +5,44 @@ export const createTunes = () => {
   var ac = new AudioContext();
 
   // set the playback tempo (120 beats per minute)
-  var tempo = 120;
+  var tempo = 100;
 
-  var harmony = [
-    '-   e',
-    'D4  e',
-    'C4  e',
-    'D4  e',
-    'Bb3 e',
-    'C4  e',
-    'A3  e',
-    'Bb3 e',
+  var lead = ['C4  s', 'A4  s', 'Bb4 s', 'D4 s'];
 
-    'G3  e',
-    'A3  e',
-    'Bb3 e',
-    'A3  e',
-    'G3  e',
-    'A3  e',
-    'F3  q',
-
-    '-   e',
-    'D4  s',
-    'C4  s',
-    'D4  e',
-    'Bb3 e',
-    'C4  e',
-    'Bb3 e',
-    'A3  e',
-    'Bb3 e',
-
-    'G3  e',
-    'A3  e',
-    'Bb3 e',
-    'A3  e',
-    'G3  s',
-    'A3  s',
-    'G3  e',
-    'F3  q',
+  var bass = [
+    'C2  h',
+    '-   0.025',
+    'C2  h',
+    '-   0.025',
+    'A3  h',
+    '-   0.025',
+    'A2  h',
+    '-   0.025',
+    'Bb3 w',
+    '-   0.025',
+    'D2  w',
+    '-   0.025',
   ];
 
   // create a new sequence
-  var sequence = new TinyMusic.Sequence(ac, tempo, harmony);
-  sequence.gain.gain.value = 0.5; // half volume
+  var seq_lead = new TinyMusic.Sequence(ac, tempo, lead);
+  var seq_bass = new TinyMusic.Sequence(ac, tempo, bass);
+  seq_lead.gain.gain.value = 0.05; //  volume
+  seq_bass.gain.gain.value = 1.0; //  volume
+  seq_bass.bass.gain.value = 10;
+  seq_bass.smoothing = 0.4;
 
   // An electric piano/organy (The Doors-ish) sound
-  sequence.createCustomWave([-0.8, 1, 0.8, 0.8, -0.8, -0.8, -1]);
+  seq_lead.createCustomWave([-0.8, 1, 0.8, 0.8, -0.8, -0.8, -1]);
+  seq_bass.createCustomWave([-1, -0.9, -0.6, -0.3, 0, 0.3, 0.6, 0.9, 1]);
 
+  seq_lead = new TinyMusic.Sequence(ac, tempo, lead);
+  seq_bass = new TinyMusic.Sequence(ac, tempo, bass);
   // disable looping
-  sequence.loop = true;
+  seq_lead.loop = true;
+  seq_bass.loop = true;
 
   // play it
-  sequence.play();
+  seq_lead.play();
+  seq_bass.play();
 };

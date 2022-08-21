@@ -1,42 +1,39 @@
-import { GameLoop, keyPressed } from 'kontra';
+import { GameLoop, keyPressed, onKey } from 'kontra';
 
 //import { createTunes } from './tunes';
 
 export const createGameLoop = (config) => {
-  const { spReaper, spGround, canvas } = config;
+  const { player, spGround } = config;
 
   console.log('createGameLoop', config);
 
   //createTunes();
 
+  onKey('w', function (e) {
+    player.jump();
+  });
+
   const loop = GameLoop({
     // create the main game loop
     update: (dt) => {
-      let horKey = false;
+      let hasNoHorizontalInput = true;
       // Input
-      if (keyPressed('d') && spReaper.dx < 8) {
-        spReaper.dx += 0.5;
-        spReaper.scaleX = 1;
-        horKey = true;
-      } else if (keyPressed('a') && spReaper.dx > -8) {
-        spReaper.dx -= 0.5;
-        spReaper.scaleX = -1;
-        horKey = true;
+      if (keyPressed('d')) {
+        hasNoHorizontalInput = false;
+        player.moveRight();
+      }
+      if (keyPressed('a')) {
+        hasNoHorizontalInput = false;
+        player.moveLeft();
       }
 
-      if (!horKey) spReaper.dx *= 0.9;
+      //if (keyPressed('w')) player.jump();
 
-      // Animate
-      spReaper.update();
-      if (spReaper.x > canvas.width + spReaper.width / 2) {
-        spReaper.x = -spReaper.width;
-      }
-      if (spReaper.x < -spReaper.width) {
-        spReaper.x = canvas.width + spReaper.width / 2;
-      }
+      // Update Sprites
+      player.update({ hasNoHorizontalInput });
     },
     render: () => {
-      spReaper.render();
+      player.render();
       spGround.render();
     },
   });

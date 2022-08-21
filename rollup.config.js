@@ -3,9 +3,10 @@ import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
-import replace from '@rollup/plugin-replace';
+
 import copy from 'rollup-plugin-copy';
 import { terser } from 'rollup-plugin-terser';
+import kontra from 'rollup-plugin-kontra';
 
 import pkg from './package.json';
 
@@ -26,13 +27,12 @@ export default [
     ],
     plugins: [
       resolve({ base: 'src', browser: true, preferBuiltins: false }),
-      replace({
-        preventAssignment: true,
-        __VERSION__: JSON.stringify(pkg.version),
-        __DCOVERSION__: JSON.stringify(pkg.dcoversion),
-      }),
       commonjs({}),
       html({ template: './src/index.html', inject: false }),
+      isProd &&
+        kontra({
+          debug: false,
+        }),
       isProd && terser(),
       copy({
         targets: [
@@ -43,7 +43,7 @@ export default [
         ],
       }),
       isDev && serve('dist/'),
-      isDev && livereload(),
+      isDev && livereload({ delay: 200 }),
     ],
   },
 ];

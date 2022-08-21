@@ -34,13 +34,14 @@ game.bootstrap();
 const canvas = document.getElementById('game');
 
 const ctx = canvas.getContext('2d');
-ctx.imageSmoothingEnabled = false;
-ctx.webkitImageSmoothingEnabled = false;
-ctx.mozImageSmoothingEnabled = false;
-ctx.msImageSmoothingEnabled = false;
-ctx.oImageSmoothingEnabled = false;
-ctx.canvas.width = 320;
+// ctx.imageSmoothingEnabled = false;
+// ctx.webkitImageSmoothingEnabled = false;
+// ctx.mozImageSmoothingEnabled = false;
+// ctx.msImageSmoothingEnabled = false;
+// ctx.oImageSmoothingEnabled = false;
+ctx.canvas.width = 640;
 ctx.canvas.height = 320;
+
 //ctx.scale(2, 2);
 
 // const resize = () => {

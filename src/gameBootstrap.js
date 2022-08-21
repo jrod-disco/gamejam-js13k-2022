@@ -1,10 +1,13 @@
-import { init, load, SpriteSheet, Sprite, initKeys } from 'kontra';
+import { init, load, SpriteSheet, Sprite, initKeys, GameObject } from 'kontra';
+import { createPlayer } from './death';
 
 export const bootstrap = (config) => {
   init();
   initKeys();
 
   console.log('init');
+
+  const pc = createPlayer();
 
   load(
     `${config.assetPath}reaper-spritesheet.png`,
@@ -20,50 +23,32 @@ export const bootstrap = (config) => {
       //     console.warn('Local Storage Unavailable');
       //   }
 
-      let spriteSheet = SpriteSheet({
-        image: assets[0],
-        frameWidth: 32,
-        frameHeight: 32,
+      pc.init({ sheetAsset: assets[0], canvas: config.canvas });
 
-        // this will also call createAnimations()
-        animations: {
-          // create 1 animation: still
-          still: {
-            // a single frame
-            frames: 1,
-          },
-        },
-      });
+      console.log(pc.state.sp);
 
-      spriteSheet.createAnimations({
-        // create 4 animations: jump, walk, moonWalk, attack
-        idle: {
-          // sequence of frames (can be non-consecutive)
-          frames: [0, 1, 2],
-          frameRate: 10,
-          loop: true,
-        },
-      });
-
-      let spReaper = Sprite({
-        x: 100,
-        y: 288,
-        anchor: { x: 0.5, y: 1 },
-
-        // required for an animation sprite
-        animations: spriteSheet.animations,
-      });
-
-      spReaper.playAnimation('idle');
-
-      let spGround = Sprite({
+      const spGroundTile1 = Sprite({
         image: assets[1],
         x: 0,
         y: 320,
         anchor: { x: 0, y: 1 },
       });
+      const spGroundTile2 = Sprite({
+        image: assets[1],
+        x: 320,
+        y: 320,
+        anchor: { x: 0, y: 1 },
+      });
 
-      config.onComplete({ ...config, spriteSheet, spReaper, spGround });
+      const spGround = GameObject({});
+      spGround.addChild(spGroundTile1);
+      spGround.addChild(spGroundTile2);
+
+      config.onComplete({
+        ...config,
+        spGround,
+        player: pc,
+      });
     })
     .catch(function (err) {
       console.warn('Error loading assets', err);
